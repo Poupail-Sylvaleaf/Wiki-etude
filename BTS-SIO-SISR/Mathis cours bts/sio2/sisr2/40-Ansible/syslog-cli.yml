@@ -1,0 +1,28 @@
+---
+- hosts: web
+  tasks:
+  - name: decommente l'option ForwardToSyslog
+    replace:
+      path: /etc/systemd/journald.conf
+      regexp: '^#ForwardToSyslog=yes'
+      replace: 'ForwardToSyslog=yes'
+      backup: true
+    notify: Restart systemd-journald.service
+
+  - name: Ajoute l'indication de serveur syslog distant si elle n'est pas presente
+    lineinfile:
+      path: /etc/rsyslog.conf
+      line: '*.* @192.168.0.45:514'
+      create: yes
+
+  handlers:
+  - name: Restart systemd-journald.service
+    service:
+      name: systemd-journald.service
+      state: restarted
+
+  handlers:
+  - name: Restart systemd-journald.service
+    service:
+      name: systemd-journald.service
+      state: restarted

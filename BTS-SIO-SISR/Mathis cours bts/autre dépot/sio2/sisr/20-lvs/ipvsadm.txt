@@ -1,0 +1,10 @@
+ipvsadm -A -t 192.168.0.25:80 -s rr
+ipvsadm -a -t 192.168.0.25:80 -r 172.16.1.1:80 -m 
+ipvsadm -a -t 192.168.0.25:80 -r 172.16.1.2:80 -m  
+
+
+pour check basculement round robin : 
+
+
+watch -s curl http://192.168.0.150
+

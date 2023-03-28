@@ -1,0 +1,23 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "domaine.lan" {
+             type slave;
+             file "/etc/bind/db.domaine.lan";
+	     masters { 192.168.0.140; };        
+	     masterfile-format text;
+};
+
+	// zone inverse 
+	zone "0.168.192.in-addr.arpa" {
+	     type slave;
+             notify no;
+             file "/etc/bind/db.domaine.lan.rev";
+	     masters { 192.168.0.140; };	
+	     masterfile-format text;
+};

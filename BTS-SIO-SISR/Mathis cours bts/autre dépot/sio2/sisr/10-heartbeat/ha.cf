@@ -1,0 +1,3 @@
+bcast enp0s8
+node srv1
+node srv2

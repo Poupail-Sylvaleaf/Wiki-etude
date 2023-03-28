@@ -1,0 +1,25 @@
+---
+- hosts: infra
+  tasks:
+  - name: decommente le chargement du module imudp dans rsyslog.conf
+    replace:
+      path: /etc/rsyslog.conf
+      regexp: '^#module\(load="imudp"\)'
+      replace: 'module(load="imudp")'
+      backup: true
+    notify: Restart Rsyslog
+
+  - name: decommente le chargement du module imudp dans rsyslog.conf
+    replace:
+      path: /etc/rsyslog.conf
+      regexp: '^#input\(type="imudp" port="514"\)'
+      replace: 'input(type="imudp" port="514")'
+      backup: true
+    notify: Restart Rsyslog
+
+  handlers:
+  - name: Restart Rsyslog
+    service:
+      name: rsyslog
+      state: restarted
+

@@ -1,0 +1,4 @@
+vagrant init debian/bullseye64 : dans un dossier dedier à ça
+
+ça créer fichier Vagrantfile et dedans 
+faire mes salades

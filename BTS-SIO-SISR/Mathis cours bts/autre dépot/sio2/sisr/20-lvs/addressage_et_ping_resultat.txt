@@ -1,0 +1,20 @@
+
+
+LVS enp0s3: 192.168.0.25
+LVS enp0s8: 172.16.1.10
+
+
+cli1 : 192.168.0.37
+cli2 : 192.168.0.22
+
+web1 : 172.16.1.1
+web2 : 172.16.1.2
+
+
+
+ping :
+	LVS -> web1 : ok
+	LVS -> web2 : ok
+
+	cli1 -> LVS -> web1,2 : ok
+	cli2 -> LVS -> web1,2 : ok

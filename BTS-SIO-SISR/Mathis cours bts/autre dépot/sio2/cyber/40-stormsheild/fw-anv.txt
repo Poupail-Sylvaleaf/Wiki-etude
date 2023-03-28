@@ -1,0 +1,34 @@
+Groupe : ANVERS
+Bécane : PXLAB1
+
+Adresses de sous-réseaux :
+ - LAN – 192.168.1.0/24
+ - DMZ – 172.16.1.0/24
+ - WAN – 172.16.0.0/24
+
+
+Adresses IP de votre firewall :
+
+LAN VMBR2 : 192.168.1.254
+DMZ VMBR3 : 172.16.1.254
+Out VMBR0 : 172.16.0.150
+
+
+admin:Azerty1!
+
+
+qm create 4001 --net0 virtio,bridge=vmbr0 --name fw-anv --serial0 socket --boot order=scsi0 --scsihw virtio-scsi-pci --ostype l26 --scsi0 local-lvm:0,import-from=/mnt/pve/nfs-gwlab/template/iso/utm-SNS-EVA-4.3.5-kvm.qcow2
+
+
+
+
+
+
+
+
+
+
+
+
+##
+ANVERS : 172.16.0.150

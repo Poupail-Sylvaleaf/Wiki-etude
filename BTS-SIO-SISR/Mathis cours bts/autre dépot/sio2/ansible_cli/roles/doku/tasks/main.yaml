@@ -1,0 +1,48 @@
+#recuperation archive dokuwiki depuis depl
+---
+
+- name: recuperation archive et decompression dans /tmp
+  unarchive:
+    src: http://depl/store/dokuwiki-stable.tgz
+    dest: /var/www/html
+    remote_src: yes
+ 
+- name: renommer le dossier et deplacer
+  stat:
+    path: /var/www/html/dokuwiki-2022-07-31a
+  register: dokuwiki_status
+
+- name: check si dokuwiki deja installe
+  stat:
+    path: /var/www/html/doku
+  register: doku_status
+
+- name: sortie si dokuwiki est deja installe
+  fail:
+    msg: "dokuwiki deja installe dans /var/www/html/doku"
+  when: doku_status.stat.exists
+
+- name: renomme dokuwiki-2022-07-31a
+  command: "mv /var/www/html/dokuwiki-2022-07-31a /var/www/html/doku"
+  when: dokuwiki_status.stat.exists
+
+- name: les droits dokuwiki
+  file:
+    path: /var/www/html/doku
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+    mode: 0755
+
+- name: droits de www-data
+  file:
+    path: "/var/www/html/doku/{{ item }}"
+    state: directory
+    recurse: yes
+    owner: www-data
+    group: www-data
+  with_items:
+    - data
+    - lib
+    - conf

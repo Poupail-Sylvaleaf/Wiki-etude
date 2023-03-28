@@ -1,0 +1,4 @@
+search sio.lan
+domain sio.lan
+nameserver 10.121.38.7
+nameserver 10.121.38.8

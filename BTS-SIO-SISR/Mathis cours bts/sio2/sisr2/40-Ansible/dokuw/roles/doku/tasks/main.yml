@@ -1,0 +1,7 @@
+- name: recuperation dokuwiki-stable.tgz depuis machine depl
+  get_url:
+    url: http://depl/store/dokuwiki-stable.tgz
+    dest: /tmp
+
+- name: Extraction archive
+  unarchive:

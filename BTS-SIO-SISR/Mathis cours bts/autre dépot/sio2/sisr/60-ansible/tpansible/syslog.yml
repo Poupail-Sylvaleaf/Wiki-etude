@@ -1,0 +1,25 @@
+# decommenter 2 ligne dans /etc/rsyslog.conf et restart 
+---
+- hosts: infra
+  tasks:
+  - name : decommentage numero 1 dans rsyslog.conf
+    replace:
+      path: /etc/rsyslog.conf
+      regexp: '^#module\(load="imudp"\)'
+      replace: 'module(load="imudp")'
+      backup: true
+    notify: restart rsyslog
+
+  - name : decommentage numero 2 dans rsyslog.conf
+    replace:
+      path: /etc/rsyslog.conf
+      regexp: '^#input\(type="imudp" port="514"\)'
+      replace: 'input(type="imudp" port="514")'
+      backup: true
+    notify: restart rsyslog
+
+  handlers:
+  - name: restart rsyslog
+    service:
+      name: rsyslog
+      state: restarted

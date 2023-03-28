@@ -1,0 +1,43 @@
+---
+- name: mon playbook
+  hosts: srv
+  tasks:
+
+  - name: Ajout utilisateur sioadm
+    ansible.builtin.user:
+      name: sioadm
+      password: sioadm
+      uid: 1040
+      group: sudo
+      shell: /bin/bash
+
+  - name: Ajout key publique ssh
+    ansible.posix.authorized_key:
+      user: sioadm
+      state: present
+      key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCczAluP96RmQK4/0L2XtjZ6XOWd4cFUxTcHLLOWYvQ3+nmjyguK/5wN6bR5hvFuYis1zk0xzZSOzxiodtNUOajfjWc1H3ryi6faM8NUe5YQ7hHgediBardZCcw8OUe2pICAtiQtc/0UmGrETd6EeMlnDA5W3Xb4fuGV8bUef6Bmv3dNvNhuextfSEWWKGYPfYY2DWxHvYGz3S1YQd7GYtBBFUbaO26mJWF+7D044wIG2eBWYb7hzkpgXRZ1IQGiV/G/ug2JV8EiMX34owTkLxlzzbMepvOE4949+iAxCZQyWQ9OTlhLgzHqfR2E6QLcxfpq1Bv8sLv7AsUP7OFPkYCP6fuEnTZsywVfZy96jZjGhe5hHGS/H4YcgApH8aCcQSxPlQ8+FQ1b38P8qRLKRERzqtwTN5Ae3HG4bB2+C0AvmU4echlmRfs4FWOQ9yFR50ocdDgDGAQDEL0mXMR5EL/aY4pNH2LTC+HkbUuQWvezUFdaXxGiwktmS4ftDz0rbc= root@ansible
+
+  - name: Desintallation wpasupplicant et rpcbind
+    ansible.builtin.package:
+      name: wpasupplicant, rpcbind
+      state: absent
+
+  - name: Modification resolv
+    ansible.builtin.copy:
+        src: ./resolv.txt
+        dest: /etc/resolv.conf
+
+  - name: Activer root login a prohibit-password
+    lineinfile:
+          dest: /etc/ssh/sshd_config
+          regexp: '^PermitRootLogin'
+          line: "PermitRootLogin prohibit-password"
+          state: present
+    notify:
+      - restart ssh
+
+  handlers:
+  - name: restart ssh
+    service:
+      name: sshd
+      state: restarted

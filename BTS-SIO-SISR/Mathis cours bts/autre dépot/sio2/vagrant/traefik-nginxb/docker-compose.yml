@@ -1,0 +1,30 @@
+ersion: '3'
+
+services:
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:latest
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+  nginx:
+    # A container that exposes an API to show its IP address
+    image: nginx:1.23-alpine
+    volumes:
+      - ./nginx:/usr/share/nginx/html:ro
+    labels:
+      - "traefik.http.routers.nginx.rule=Host(`my.nginx`)"
+  nginx2:
+    # A container that exposes an API to show its IP address
+    image: nginx:1.23-alpine
+    volumes:
+      - ./nginx2:/usr/share/nginx/html:ro
+    labels:
+      - "traefik.http.routers.nginx2.rule=Host(`my.nginx2`)"

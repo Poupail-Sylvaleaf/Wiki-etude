@@ -1,0 +1,9 @@
+- name: installation apache2 php php-gd php-mbstring php-string php-xml
+  apt:
+    name:
+    - apache2
+    - php
+    - php-gd
+    - php-mbstring
+    - php-xml
+    state: present

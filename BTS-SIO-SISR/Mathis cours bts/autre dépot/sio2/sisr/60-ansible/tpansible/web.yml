@@ -1,0 +1,23 @@
+# playbook pour installer apache2, php, phpmb-string et copier fichier index.html dans repertoire web
+---
+- hosts: all
+  tasks:
+  - name: Installation apache2
+    apt:
+      name: apache2
+      state: present
+
+  - name: Installation php
+    apt:
+      name: php
+      state: present
+
+  - name: Installation php-mbstring
+    apt:
+      name: php-mbstring
+      state: present
+
+  - name: copie de index.html dans repertoire serveur web apache2
+    copy:
+      src: index.html
+      dest: /var/www/html

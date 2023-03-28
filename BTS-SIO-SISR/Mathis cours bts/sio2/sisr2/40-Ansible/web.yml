@@ -1,0 +1,24 @@
+---
+- name: mon playbook
+  hosts: web
+  tasks:
+
+  - name: installation apache2 
+    apt : 
+      name: apache2
+      state: present
+
+  - name: installation php-mbstring
+    apt : 
+      name: php
+      state: present
+
+  - name: installation php-mbstring
+    apt :
+      name: php-mbstring
+      state: present
+
+  - name: Copie index.html
+    copy:
+      src: index.html
+      dest: /var/www/html/

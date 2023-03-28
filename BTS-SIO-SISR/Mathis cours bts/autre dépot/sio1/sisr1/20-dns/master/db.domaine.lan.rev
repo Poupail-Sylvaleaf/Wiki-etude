@@ -1,0 +1,18 @@
+;
+; BIND data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	srvdns.domaine.lan. root.srvdns.domaine.lan. (
+			 202202011; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+	IN	NS	srvdns.domaine.lan.
+	IN	NS	srvdns2.domaine.lan.
+
+
+140	IN	PTR	srvdns.domaine.lan.
+143	IN	PTR	srvdns2.domaine.lan.
+145	IN	PTR	xp.domaine.lan.

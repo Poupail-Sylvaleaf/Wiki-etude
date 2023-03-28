@@ -1,0 +1,1 @@
+indiquer chemin et nom nouveau fichiers de conf de machines dans nagios4.conf

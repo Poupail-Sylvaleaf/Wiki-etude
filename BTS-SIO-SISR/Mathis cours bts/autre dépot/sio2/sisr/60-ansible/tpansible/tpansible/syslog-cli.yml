@@ -1,0 +1,29 @@
+#syslog-cli 2 remplacement et restart 2 services 
+---
+- hosts: all
+  tasks:
+  - name : decommentage numero 1 forwardtosyslog dans journald.conf
+    replace:
+      path: /etc/systemd/journald.conf
+      regexp: '^#ForwardToSyslog=yes'
+      replace: 'ForwardToSyslog=yes'
+      backup: true
+    notify: restart rsyslog
+
+  - name : decommentage numero 2 dans rsyslog.conf
+    lineinfile:
+      path: /etc/rsyslog.conf
+      line: '*.* @192.168.0.49:514'
+      backup: true
+    notify: restart systemd-journald
+
+  handlers:
+  - name: restart rsyslog
+    service:
+      name: rsyslog
+      state: restarted
+  
+  - name: restart systemd-journald
+    service:
+      name: systemd-journald
+      state: restarted

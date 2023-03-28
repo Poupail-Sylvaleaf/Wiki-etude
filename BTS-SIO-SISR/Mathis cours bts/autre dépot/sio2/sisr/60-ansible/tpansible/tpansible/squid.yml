@@ -1,0 +1,33 @@
+# install squid et template config de squid pour port et mémoire cache et acl localet et http_access
+---
+- hosts: infra
+  vars:
+  - proxy_port: 8080
+  - proxy_mem: 128
+  - localnet: "192.168.0.0/24"
+  tasks:
+  - name: Installation squid
+    apt:
+      name: squid
+      state: present
+
+  - name: generation du fichier de conf squid.conf a partir de la template squid.conf.j2
+    template:
+      src: squid.conf.j2
+      dest: /etc/squid/squid.conf
+      mode: 0644
+      backup: true
+    notify: restart squid
+
+  handlers:
+  - name: restart squid
+    service:
+      name: squid
+      state: restarted
+
+
+
+#  - name: recup fichier de conf squid.conf
+#    fetch:
+#      src: /etc/squid/squid.conf
+#      dest: squid.conf.j2

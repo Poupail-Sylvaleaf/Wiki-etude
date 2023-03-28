@@ -1,0 +1,3 @@
+heartbeat apache2 net-tools
+
+systemctl disable apache 2 car seulement lancer par heartbeat
